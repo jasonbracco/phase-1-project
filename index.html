@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script defer= "src=js/index.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+
+    <body>
+        <h1>NBA Player/Team Search</h1>
+        <div>
+            <form id="player-search">
+                <label for="player-selector">Player Name:</label><br>
+                <input type="text" id="fname" name="fname"><br>
+                <input type="submit" value="Submit">
+              </form>
+              <form id="team-search">
+                <label for="lname">Team Name:</label><br>
+                <input type="text" id="lname" name="lname"><br>
+                <input type="submit" value="Submit">
+              </form>
+              <p id="returned-player">Player Information:
+                  <ul id="player-list"></ul>
+              </p>
+              <br>
+              <br>
+              <p id="returned-team">Team Information:
+                  <ul id="team-list"></ul>
+              </p>
+
+        </div>
+       
+    </body>
+</html>
