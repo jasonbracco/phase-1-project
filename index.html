@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="X-UA-Compatible" content="HTML, CSS, JavaScript">
         <title>Document</title>
-        <script defer= "src=js/index.js"></script>
+        <script defer src="index.js"></script>
         <link rel="stylesheet" href="index.css">
     </head>
 
@@ -13,12 +14,13 @@
         <div>
             <form id="player-search">
                 <label for="player-selector">Player Name:</label><br>
-                <input type="text" id="fname" name="fname"><br>
+                <input type="text" id="player-text" name="fname"><br>
                 <input type="submit" value="Submit">
               </form>
+              <br>
               <form id="team-search">
-                <label for="lname">Team Name:</label><br>
-                <input type="text" id="lname" name="lname"><br>
+                <label for="team-selector">Team Name:</label><br>
+                <input type="text" id="team-text" name="lname"><br>
                 <input type="submit" value="Submit">
               </form>
               <p id="returned-player">Player Information:
@@ -29,8 +31,6 @@
               <p id="returned-team">Team Information:
                   <ul id="team-list"></ul>
               </p>
-
         </div>
-       
     </body>
 </html>

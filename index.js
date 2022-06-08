@@ -1,17 +1,21 @@
-{/* <div id="player-section">
-<h2>NBA Player:</h2>
-<form id="player-search">
-    <input id="search" type="text" name="search">
-    <input type="submit" name="submit">
-</form>
-</div>
-<div id="team-selection">
- <h2>NBA Team:</h2>
-<form id="team-search">
-    <input id="search" type="text" name="search">
-    <input type="submit" name="submit">
-</form> */}
+const playerSubmit = document.getElementById("player-search")
+const teamSubmit = document.getElementById("team-search")
 
-function getButtons{
-    console.log(document.getElementById('team-button'))
+playerSubmit.addEventListener("submit", handlePlayerSubmit)
+teamSubmit.addEventListener("submit", handleTeamSubmit)
+
+function handlePlayerSubmit(event){
+    event.preventDefault()
+    let playerInputText = document.getElementById('player-text').value 
+    fetchPlayer(playerInputText)
 }
+
+function handleTeamSubmit(event){
+    event.preventDefault()
+    let teamInputText = document.getElementById('team-text').value 
+    console.log(teamInputText)
+}
+
+
+
+
