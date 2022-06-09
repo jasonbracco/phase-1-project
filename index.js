@@ -4,15 +4,18 @@ const teamSubmit = document.getElementById("team-search")
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
 teamSubmit.addEventListener("submit", handleTeamSubmit)
 
+let playerList = document.getElementById('player-list')
+let grabPlayers = document.getElementsByClassName("player")
+
 function handlePlayerSubmit(event){
     event.preventDefault()
-    let playerInputText = document.getElementById('player-text').value 
+    let playerInputText = document.getElementById('player-text').value
     fetchPlayer(playerInputText)
 }
 
 function handleTeamSubmit(event){
     event.preventDefault()
-    let teamInputText = document.getElementById('team-text').value 
+    let teamInputText = document.getElementByClassName('team-text').value 
     fetchTeam(teamInputText)
 }
 
@@ -21,6 +24,10 @@ function fetchPlayer(playerInputText) {
     .then(response => response.json())
     .then(playerData => {
         if(playerData.data.length !==0){
+            console.log(grabPlayers)
+        for(let i=grabPlayers.length-1;i >= 0;i--) {
+            grabPlayers[i].remove();
+        }
         playerData.data.forEach(player => renderPlayer(player)) //each one is an object
         } 
         else{
@@ -42,12 +49,11 @@ function fetchTeam(teamInputText) {
 }
 
 function renderPlayer(player){
-    let playerList = document.getElementById('player-list')
     newPlayer = document.createElement('li')
-    newPlayer.className = 'player'
-    newPlayer.id = `${player.id}`
-    newPlayer.innerHTML = `${player.first_name} ${player.last_name}`
+    newPlayer.className = "player"
+    newPlayer.innerHTML =`${player.first_name} ${player.last_name}</li>`
     playerList.appendChild(newPlayer)
+
 }
 
 
