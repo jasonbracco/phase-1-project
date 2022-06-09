@@ -19,7 +19,13 @@ function handleTeamSubmit(event){
 function fetchPlayer(playerInputText) {
     fetch(`https://www.balldontlie.io/api/v1/players?search=${playerInputText}&per_page=100`)
     .then(response => response.json())
-    .then(playerData => {playerData.data.forEach(player => renderPlayer(player)) //each one is an object
+    .then(playerData => {
+        if(playerData.data.length !==0){
+        playerData.data.forEach(player => renderPlayer(player)) //each one is an object
+        } 
+        else{
+            alert("No player matches this criteria!  Please enter another search")
+        }
     })
 }
 
@@ -46,8 +52,6 @@ function renderPlayer(player){
 
 
 function renderTeam(teamInputText, teamInformation, teamArray){
-    //take the input text and run it through the array
-    //if it matches anything in the array, create a list element with that team
     console.log(teamInformation)
     let transformedTeamText = teamInputText.toUpperCase()
     let requestedTeam = teamArray.filter(team => team.includes(transformedTeamText))
@@ -62,7 +66,7 @@ function renderTeam(teamInputText, teamInformation, teamArray){
         })
     }
     else{
-        setTimeout(function() { alert("No team matches this criteria!  Please enter another search"); }, 3000)
+        alert("No team matches this criteria!  Please enter another search")
     }
 }
 
