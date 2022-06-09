@@ -4,8 +4,20 @@ const teamSubmit = document.getElementById("team-search")
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
 teamSubmit.addEventListener("submit", handleTeamSubmit)
 
-let playerList = document.getElementById('player-list')
 let grabPlayers = document.getElementsByClassName("player")
+let grabTeams = document.getElementsByClassName('team')
+
+function removePlayers(grabPlayers){
+    for(let i=grabPlayers.length-1;i >= 0;i--) {
+        grabPlayers[i].remove();
+    }
+}
+
+function removeTeams(grabTeams){
+    for(let i=grabTeams.length-1;i >= 0;i--) {
+        grabTeams[i].remove();
+    }
+}
 
 function handlePlayerSubmit(event){
     event.preventDefault()
@@ -15,7 +27,7 @@ function handlePlayerSubmit(event){
 
 function handleTeamSubmit(event){
     event.preventDefault()
-    let teamInputText = document.getElementByClassName('team-text').value 
+    let teamInputText = document.getElementById('team-text').value 
     fetchTeam(teamInputText)
 }
 
@@ -24,13 +36,11 @@ function fetchPlayer(playerInputText) {
     .then(response => response.json())
     .then(playerData => {
         if(playerData.data.length !==0){
-            console.log(grabPlayers)
-        for(let i=grabPlayers.length-1;i >= 0;i--) {
-            grabPlayers[i].remove();
-        }
+        removePlayers(grabPlayers)
         playerData.data.forEach(player => renderPlayer(player)) //each one is an object
         } 
         else{
+            removePlayers(grabPlayers)
             alert("No player matches this criteria!  Please enter another search")
         }
     })
@@ -44,11 +54,11 @@ function fetchTeam(teamInputText) {
         let teamInformation = teamData.data
         teamData.data.forEach(object =>teamArray.push(object.full_name.toUpperCase()))
         renderTeam(teamInputText,teamInformation, teamArray)
-        console.log(teamArray)
     })
 }
 
 function renderPlayer(player){
+    let playerList = document.getElementById('player-list')
     newPlayer = document.createElement('li')
     newPlayer.className = "player"
     newPlayer.innerHTML =`${player.first_name} ${player.last_name}</li>`
@@ -58,10 +68,9 @@ function renderPlayer(player){
 
 
 function renderTeam(teamInputText, teamInformation, teamArray){
-    console.log(teamInformation)
+    removeTeams(grabTeams)
     let transformedTeamText = teamInputText.toUpperCase()
     let requestedTeam = teamArray.filter(team => team.includes(transformedTeamText))
-    console.log(requestedTeam)
     if(requestedTeam.length !==0){
         requestedTeam.forEach(element =>{
         let teamList = document.getElementById('team-list')
@@ -73,6 +82,7 @@ function renderTeam(teamInputText, teamInformation, teamArray){
     }
     else{
         alert("No team matches this criteria!  Please enter another search")
+        removeTeams(grabTeams)
     }
 }
 
