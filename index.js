@@ -13,16 +13,22 @@ function handlePlayerSubmit(event){
 function handleTeamSubmit(event){
     event.preventDefault()
     let teamInputText = document.getElementById('team-text').value 
-    console.log(teamInputText)
+    fetchTeam(teamInputText)
 }
 
 function fetchPlayer(playerInputText) {
-    fetch(`https://www.balldontlie.io/api/v1/players?search=${playerInputText}`)
+    fetch(`https://www.balldontlie.io/api/v1/players?search=${playerInputText}&per_page=100`)
     .then(response => response.json())
-    .then(playerData => {
-        console.log(playerData.data[0].first_name)
-        console.log(playerData.data[0].last_name)
+    .then(playerData => {playerData.data.forEach(player => renderPlayer(player))
     })
 }
+
+function fetchTeam(teamInputText) {
+    fetch(`https://www.balldontlie.io/api/v1/teams`)
+    .then(response => response.json())
+    .then(teamData => console.log(teamData))
+}
+
+
 
 
