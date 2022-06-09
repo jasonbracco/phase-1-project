@@ -60,6 +60,9 @@ function fetchTeam(teamInputText) {
 function renderPlayer(player){
     let playerList = document.getElementById('player-list')
     newPlayer = document.createElement('li')
+    newPlayer.addEventListener('click', event =>{
+        getStats(player)
+    })
     newPlayer.className = "player"
     newPlayer.innerHTML =`${player.first_name} ${player.last_name}</li>`
     playerList.appendChild(newPlayer)
@@ -84,6 +87,20 @@ function renderTeam(teamInputText, teamInformation, teamArray){
         alert("No team matches this criteria!  Please enter another search")
         removeTeams(grabTeams)
     }
+}
+
+function getStats(player){
+    fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
+    .then(response => response.json())
+    .then(playerStats => {
+        const initialValue=0
+        console.log(playerStats)
+        console.log(playerStats.data)
+        console.log(playerStats.data[0].pts)
+        let totalPoints = playerStats.data.reduce(function (acc, obj) { return acc + obj.pts; }, initialValue);
+        console.log(totalPoints)
+        
+    })
 }
 
 
