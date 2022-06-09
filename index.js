@@ -92,7 +92,9 @@ function renderTeam(teamInputText, teamInformation, teamArray){
 function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
-    .then(playerStats => {renderStats(playerStats)})
+    .then(playerStats => {
+        console.log(playerStats)
+        renderStats(playerStats)})
 }
 
 function renderStats(playerStats){
@@ -101,7 +103,35 @@ function renderStats(playerStats){
     let totalAssists = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.ast}, 0)
     let totalBlocks = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.blk}, 0)
     let totalSteals = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.stl}, 0)
-    console.log(totalPoints)
+    let statTable = document.getElementById("column2")
+    newTable = document.createElement('table')
+    newHead = document.createElement('thead')
+    newBody = document.createElement('tbody')
+    newTable.appendChild(newHead)
+    newTable.appendChild(newBody)
+    statTable.appendChild(newTable)
+    let row1 = document.createElement('tr')
+    let heading1 = document.createElement('th')
+    // heading1.innerHTML = `${playerStats.data[0].player.first_name} ${playerStats.data[0].player.last_name}`
+    heading1.innerHTML = 'Player Name'
+    let heading2 = document.createElement('th')
+    heading2.innerHTML = 'Points'
+    let heading3 = document.createElement('th')
+    heading3.innerHTML = 'Rebounds'
+    let heading4 = document.createElement('th')
+    heading4.innerHTML = 'Assists'
+    let heading5 = document.createElement('th')
+    heading5.innerHTML = 'Blocks'
+    let heading6 = document.createElement('th')
+    heading6.innerHTML = 'Steals'
+    row1.appendChild(heading1)
+    row1.appendChild(heading2)
+    row1.appendChild(heading3)
+    row1.appendChild(heading4)
+    row1.appendChild(heading5)
+    row1.appendChild(heading6)
+    newHead.appendChild(row1);
+    
 
 }
 
