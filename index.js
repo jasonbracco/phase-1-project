@@ -24,9 +24,10 @@ function fetchPlayer(playerInputText) {
 }
 
 function fetchTeam(teamInputText) {
-    fetch(`https://www.balldontlie.io/api/v1/teams`)
+    fetch(`https://www.balldontlie.io/api/v1/teams?search${teamInputText}`)
     .then(response => response.json())
-    .then(teamData => console.log(teamData))
+    .then(teamData => {teamData.data.forEach(team => renderTeam(team))
+    })
 }
 
 
