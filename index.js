@@ -62,7 +62,7 @@ function renderTeam(teamInputText, teamInformation, teamArray){
         })
     }
     else{
-
+        setTimeout(function() { alert("No team matches this criteria!  Please enter another search"); }, 3000)
     }
 }
 
