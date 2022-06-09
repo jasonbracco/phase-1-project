@@ -92,15 +92,17 @@ function renderTeam(teamInputText, teamInformation, teamArray){
 function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
-    .then(playerStats => {
-        const initialValue=0
-        console.log(playerStats)
-        console.log(playerStats.data)
-        console.log(playerStats.data[0].pts)
-        let totalPoints = playerStats.data.reduce(function (acc, obj) { return acc + obj.pts; }, initialValue);
-        console.log(totalPoints)
-        
-    })
+    .then(playerStats => {renderStats(playerStats)})
+}
+
+function renderStats(playerStats){
+    let totalPoints = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.pts}, 0)
+    let totalRebounds = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.reb}, 0)
+    let totalAssists = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.ast}, 0)
+    let totalBlocks = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.blk}, 0)
+    let totalSteals = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.stl}, 0)
+    console.log(totalPoints)
+
 }
 
 

@@ -5,6 +5,14 @@ h1{
 body{
     background-color: azure;
 }
-#render-area{
-    display: flex;
-}
+.column {
+    float: left;
+  }
+  
+  .left {
+    width: 25%;
+  }
+  
+  .right {
+    width: 75%;
+  }
