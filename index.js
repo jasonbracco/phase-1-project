@@ -1,11 +1,13 @@
 const playerSubmit = document.getElementById("player-search")
 const teamSubmit = document.getElementById("team-search")
 
-playerSubmit.addEventListener("submit", handlePlayerSubmit)
-teamSubmit.addEventListener("submit", handleTeamSubmit)
-
 let grabPlayers = document.getElementsByClassName("player")
 let grabTeams = document.getElementsByClassName('team')
+let grabButton = document.querySelector('button')
+
+playerSubmit.addEventListener("submit", handlePlayerSubmit)
+teamSubmit.addEventListener("submit", handleTeamSubmit)
+grabButton.addEventListener('click', handleRemove)
 
 function removePlayers(grabPlayers){
     for(let i=grabPlayers.length-1;i >= 0;i--) {
@@ -31,6 +33,12 @@ function handleTeamSubmit(event){
     fetchTeam(teamInputText)
 }
 
+function handleRemove(event){
+    event.preventDefault()
+    console.log(document.getElementsByClassName('table'))
+
+}
+
 function fetchPlayer(playerInputText) {
     fetch(`https://www.balldontlie.io/api/v1/players?search=${playerInputText}&per_page=100`)
     .then(response => response.json())
@@ -51,9 +59,8 @@ function fetchTeam(teamInputText) {
     .then(response => response.json())
     .then(teamData => {
         let teamArray = [] //this API does not allow a search by team
-        let teamInformation = teamData.data
         teamData.data.forEach(object =>teamArray.push(object.full_name.toUpperCase()))
-        renderTeam(teamInputText,teamInformation, teamArray)
+        renderTeam(teamInputText, teamArray)
     })
 }
 
@@ -66,11 +73,10 @@ function renderPlayer(player){
     newPlayer.className = "player"
     newPlayer.innerHTML =`${player.first_name} ${player.last_name}</li>`
     playerList.appendChild(newPlayer)
-
 }
 
 
-function renderTeam(teamInputText, teamInformation, teamArray){
+function renderTeam(teamInputText, teamArray){
     removeTeams(grabTeams)
     let transformedTeamText = teamInputText.toUpperCase()
     let requestedTeam = teamArray.filter(team => team.includes(transformedTeamText))
@@ -79,7 +85,9 @@ function renderTeam(teamInputText, teamInformation, teamArray){
         let teamList = document.getElementById('team-list')
         newTeam = document.createElement('li')
         newTeam.className = 'team'
-        newTeam.innerHTML = `${element}`
+        newTeam.innerHTML = `
+        ${element}
+        `
         teamList.appendChild(newTeam)
         })
     }
@@ -93,12 +101,10 @@ function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
     .then(playerStats => {
-        console.log(playerStats)
         renderStats(playerStats)})
 }
 
 function renderStats(playerStats){
-    
     let totalPoints = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.pts}, 0)
     let totalRebounds = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.reb}, 0)
     let totalAssists = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.ast}, 0)
@@ -106,6 +112,7 @@ function renderStats(playerStats){
     let totalSteals = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.stl}, 0)
     let statTable = document.getElementById("column2")
     newTable = document.createElement('table')
+    newTable.className = 'table'
     newHead = document.createElement('thead')
     newBody = document.createElement('tbody')
     newTable.appendChild(newHead)
@@ -134,17 +141,17 @@ function renderStats(playerStats){
     newHead.appendChild(row1);
     let row2 = document.createElement('tr')
     let row2data1 = document.createElement('td')
-    row2data1.innerHTML = `${playerStats.data[0].player.first_name} ${playerStats.data[0].player.last_name}<br>`
+    row2data1.innerHTML = `${playerStats.data[0].player.first_name} ${playerStats.data[0].player.last_name}`
     let row2data2 = document.createElement('td')
-    row2data2.innerHTML = `${totalPoints}<br>`
+    row2data2.innerHTML = `${totalPoints}`
     let row2data3 = document.createElement('td')
-    row2data3.innerHTML = `${totalRebounds}<br>`
+    row2data3.innerHTML = `${totalRebounds}`
     let row2data4 = document.createElement('td')
-    row2data4.innerHTML = `${totalAssists}<br>`
+    row2data4.innerHTML = `${totalAssists}`
     let row2data5 = document.createElement('td')
-    row2data5.innerHTML = `${totalBlocks}<br>`
+    row2data5.innerHTML = `${totalBlocks}`
     let row2data6 = document.createElement('td')
-    row2data6.innerHTML = `${totalSteals}<br>`
+    row2data6.innerHTML = `${totalSteals}`
     row2.appendChild(row2data1)
     row2.appendChild(row2data2)
     row2.appendChild(row2data3)
@@ -153,7 +160,6 @@ function renderStats(playerStats){
     row2.appendChild(row2data6)
     newBody.appendChild(row2)
 }
-
 
 
 
