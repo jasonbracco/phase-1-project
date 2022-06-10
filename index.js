@@ -98,6 +98,7 @@ function getStats(player){
 }
 
 function renderStats(playerStats){
+    
     let totalPoints = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.pts}, 0)
     let totalRebounds = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.reb}, 0)
     let totalAssists = playerStats.data.reduce(function(acc, gameObject){return acc + gameObject.ast}, 0)
@@ -131,8 +132,26 @@ function renderStats(playerStats){
     row1.appendChild(heading5)
     row1.appendChild(heading6)
     newHead.appendChild(row1);
-    
-
+    let row2 = document.createElement('tr')
+    let row2data1 = document.createElement('td')
+    row2data1.innerHTML = `${playerStats.data[0].player.first_name} ${playerStats.data[0].player.last_name}<br>`
+    let row2data2 = document.createElement('td')
+    row2data2.innerHTML = `${totalPoints}<br>`
+    let row2data3 = document.createElement('td')
+    row2data3.innerHTML = `${totalRebounds}<br>`
+    let row2data4 = document.createElement('td')
+    row2data4.innerHTML = `${totalAssists}<br>`
+    let row2data5 = document.createElement('td')
+    row2data5.innerHTML = `${totalBlocks}<br>`
+    let row2data6 = document.createElement('td')
+    row2data6.innerHTML = `${totalSteals}<br>`
+    row2.appendChild(row2data1)
+    row2.appendChild(row2data2)
+    row2.appendChild(row2data3)
+    row2.appendChild(row2data4)
+    row2.appendChild(row2data5)
+    row2.appendChild(row2data6)
+    newBody.appendChild(row2)
 }
 
 

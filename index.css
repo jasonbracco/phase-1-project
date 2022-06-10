@@ -9,10 +9,25 @@ body{
     float: left;
   }
   
-  .left {
-    width: 25%;
+.left {
+    width: 45%;
   }
   
-  .right {
-    width: 75%;
+.right {
+    width: 55%;
   }
+
+th{
+padding: 10px;
+border: 1px solid black
+}
+
+td{
+padding: 10px;
+border: 1px solid black
+}
+
+table{
+border: 1px solid black;
+padding: 5px;
+}
