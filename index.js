@@ -1,13 +1,14 @@
 const playerSubmit = document.getElementById("player-search")
 const teamSubmit = document.getElementById("team-search")
+const removeSubmit =document.getElementById('remove-button')
 
 let grabPlayers = document.getElementsByClassName("player")
 let grabTeams = document.getElementsByClassName('team')
-let grabButton = document.querySelector('button')
+let grabTable = document.getElementsByClassName('table')
 
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
 teamSubmit.addEventListener("submit", handleTeamSubmit)
-grabButton.addEventListener('click', handleRemove)
+removeSubmit.addEventListener('click', handleRemove)
 
 function removePlayers(grabPlayers){
     for(let i=grabPlayers.length-1;i >= 0;i--) {
@@ -33,10 +34,11 @@ function handleTeamSubmit(event){
     fetchTeam(teamInputText)
 }
 
-function handleRemove(event){
-    event.preventDefault()
-    console.log(document.getElementsByClassName('table'))
-
+function handleRemove(){
+    console.log(grabTable)
+    for(let i=grabTable.length-1;i >= 0;i--) {
+        grabTable[i].remove();
+    }
 }
 
 function fetchPlayer(playerInputText) {
