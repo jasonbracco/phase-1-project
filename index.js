@@ -2,6 +2,7 @@ const playerSubmit = document.getElementById("player-search")
 const teamSubmit = document.getElementById("team-search")
 const removeSubmit =document.getElementById('remove-button')
 
+
 let grabPlayers = document.getElementsByClassName("player")
 let grabTeams = document.getElementsByClassName('team')
 let grabTable = document.getElementsByClassName('table')
@@ -35,7 +36,6 @@ function handleTeamSubmit(event){
 }
 
 function handleRemove(){
-    console.log(grabTable)
     for(let i=grabTable.length-1;i >= 0;i--) {
         grabTable[i].remove();
     }
@@ -47,7 +47,7 @@ function fetchPlayer(playerInputText) {
     .then(playerData => {
         if(playerData.data.length !==0){
         removePlayers(grabPlayers)
-        playerData.data.forEach(player => renderPlayer(player)) //each one is an object
+        playerData.data.forEach(player => renderPlayer(player))
         } 
         else{
             removePlayers(grabPlayers)
@@ -60,9 +60,7 @@ function fetchTeam(teamInputText) {
     fetch(`https://www.balldontlie.io/api/v1/teams?search`)
     .then(response => response.json())
     .then(teamData => {
-        let teamArray = [] //this API does not allow a search by team
-        teamData.data.forEach(object =>teamArray.push(object.full_name.toUpperCase()))
-        renderTeam(teamInputText, teamArray)
+        renderTeam(teamInputText, teamData)
     })
 }
 
@@ -73,23 +71,32 @@ function renderPlayer(player){
         getStats(player)
     })
     newPlayer.className = "player"
-    newPlayer.innerHTML =`${player.first_name} ${player.last_name}</li>`
+    newPlayer.innerHTML =`${player.first_name} ${player.last_name} (Display Stats -->)</li>`
     playerList.appendChild(newPlayer)
 }
 
 
-function renderTeam(teamInputText, teamArray){
+function renderTeam(teamInputText, teamData){
     removeTeams(grabTeams)
+    let teamArray = []
+    let fullTeamData = teamData.data
+    teamData.data.forEach(object =>teamArray.push(object.full_name.toUpperCase()))
+    fullTeamData.forEach(element => element.full_name = element.full_name.toUpperCase())
     let transformedTeamText = teamInputText.toUpperCase()
     let requestedTeam = teamArray.filter(team => team.includes(transformedTeamText))
     if(requestedTeam.length !==0){
         requestedTeam.forEach(element =>{
-        let teamList = document.getElementById('team-list')
+        let teamInfoArray = []
+        fullTeamData.forEach(teamObject => {
+            if(teamObject.full_name === element){
+                teamInfoArray.push(teamObject)
+            }
+        })
+        console.log(teamInfoArray)
+        const teamList = document.getElementById('team-list')
         newTeam = document.createElement('li')
         newTeam.className = 'team'
-        newTeam.innerHTML = `
-        ${element}
-        `
+        newTeam.innerHTML = `${element}`
         teamList.appendChild(newTeam)
         })
     }
@@ -98,11 +105,11 @@ function renderTeam(teamInputText, teamArray){
         removeTeams(grabTeams)
     }
 }
-
 function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
     .then(playerStats => {
+        console.log(playerStats)
         renderStats(playerStats)})
 }
 
@@ -122,7 +129,6 @@ function renderStats(playerStats){
     statTable.appendChild(newTable)
     let row1 = document.createElement('tr')
     let heading1 = document.createElement('th')
-    // heading1.innerHTML = `${playerStats.data[0].player.first_name} ${playerStats.data[0].player.last_name}`
     heading1.innerHTML = 'Player Name'
     let heading2 = document.createElement('th')
     heading2.innerHTML = 'Points'
