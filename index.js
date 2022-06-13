@@ -1,16 +1,12 @@
 const playerSubmit = document.getElementById("player-search")
 const teamSubmit = document.getElementById("team-search")
-const removeSubmit =document.getElementById('remove-button')
-document.addEventListener('keydown', handleRemove)
-
 
 let grabPlayers = document.getElementsByClassName("player")
 let grabTeams = document.getElementsByClassName('team')
 let grabTable = document.getElementsByClassName('table')
 
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
-teamSubmit.addEventListener("submit", handleTeamSubmit)
-// removeSubmit.addEventListener('keydown', handleRemove)
+document.addEventListener('keydown', handleRemove)
 
 function removePlayers(grabPlayers){
     for(let i=grabPlayers.length-1;i >= 0;i--) {
@@ -18,22 +14,10 @@ function removePlayers(grabPlayers){
     }
 }
 
-function removeTeams(grabTeams){
-    for(let i=grabTeams.length-1;i >= 0;i--) {
-        grabTeams[i].remove();
-    }
-}
-
 function handlePlayerSubmit(event){
     event.preventDefault()
     let playerInputText = document.getElementById('player-text').value
     fetchPlayer(playerInputText)
-}
-
-function handleTeamSubmit(event){
-    event.preventDefault()
-    let teamInputText = document.getElementById('team-text').value 
-    fetchTeam(teamInputText)
 }
 
 function handleRemove(event){
@@ -58,14 +42,6 @@ function fetchPlayer(playerInputText) {
     })
 }
 
-function fetchTeam(teamInputText) {
-    fetch(`https://www.balldontlie.io/api/v1/teams?search`)
-    .then(response => response.json())
-    .then(teamData => {
-        renderTeam(teamInputText, teamData)
-    })
-}
-
 function renderPlayer(player){
     let playerList = document.getElementById('player-list')
     newPlayer = document.createElement('li')
@@ -77,41 +53,6 @@ function renderPlayer(player){
     playerList.appendChild(newPlayer)
 }
 
-
-function renderTeam(teamInputText, teamData){
-    removeTeams(grabTeams)
-    let teamArray = []
-    let fullTeamData = teamData.data
-    teamData.data.forEach(object =>teamArray.push(object.full_name.toUpperCase()))
-    fullTeamData.forEach(element => element.full_name = element.full_name.toUpperCase())
-    let transformedTeamText = teamInputText.toUpperCase()
-    let requestedTeam = teamArray.filter(team => team.includes(transformedTeamText))
-    if(requestedTeam.length !==0){
-        requestedTeam.forEach(element =>{
-        let teamInfoArray = []
-        fullTeamData.forEach(teamObject => {
-            if(teamObject.full_name === element){
-                teamInfoArray.push(teamObject)
-            }
-        })
-        const teamList = document.getElementById('team-list')
-        newTeam = document.createElement('li')
-        newTeam.addEventListener('mouseover', handleMouseOver(teamInfoArray))
-        newTeam.className = 'team'
-        
-        newTeam.innerHTML = `${element}`
-        teamList.appendChild(newTeam)
-        })
-    }
-    else{
-        alert("No team matches this criteria!  Please enter another search")
-        removeTeams(grabTeams)
-    }
-}
-
-function handleMouseOver(teamInfoArray){
-    console.log(teamInfoArray)
-}
 function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
