@@ -1,6 +1,7 @@
 const playerSubmit = document.getElementById("player-search")
 const teamSubmit = document.getElementById("team-search")
 const removeSubmit =document.getElementById('remove-button')
+document.addEventListener('keydown', handleRemove)
 
 
 let grabPlayers = document.getElementsByClassName("player")
@@ -9,7 +10,7 @@ let grabTable = document.getElementsByClassName('table')
 
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
 teamSubmit.addEventListener("submit", handleTeamSubmit)
-removeSubmit.addEventListener('click', handleRemove)
+// removeSubmit.addEventListener('keydown', handleRemove)
 
 function removePlayers(grabPlayers){
     for(let i=grabPlayers.length-1;i >= 0;i--) {
@@ -35,10 +36,11 @@ function handleTeamSubmit(event){
     fetchTeam(teamInputText)
 }
 
-function handleRemove(){
-    for(let i=grabTable.length-1;i >= 0;i--) {
-        grabTable[i].remove();
-    }
+function handleRemove(event){
+    if(event.key === 'Backspace')
+        for(let i=grabTable.length-1;i >= 0;i--) {
+            grabTable[i].remove();
+        }
 }
 
 function fetchPlayer(playerInputText) {
@@ -92,10 +94,11 @@ function renderTeam(teamInputText, teamData){
                 teamInfoArray.push(teamObject)
             }
         })
-        console.log(teamInfoArray)
         const teamList = document.getElementById('team-list')
         newTeam = document.createElement('li')
+        newTeam.addEventListener('mouseover', handleMouseOver(teamInfoArray))
         newTeam.className = 'team'
+        
         newTeam.innerHTML = `${element}`
         teamList.appendChild(newTeam)
         })
@@ -104,6 +107,10 @@ function renderTeam(teamInputText, teamData){
         alert("No team matches this criteria!  Please enter another search")
         removeTeams(grabTeams)
     }
+}
+
+function handleMouseOver(teamInfoArray){
+    console.log(teamInfoArray)
 }
 function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
@@ -168,6 +175,7 @@ function renderStats(playerStats){
     row2.appendChild(row2data6)
     newBody.appendChild(row2)
 }
+
 
 
 
