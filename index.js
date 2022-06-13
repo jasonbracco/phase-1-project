@@ -34,7 +34,7 @@ function renderPlayer(player){
         getStats(player)
     })
     newPlayer.className = "player"
-    newPlayer.innerHTML =`${player.first_name} ${player.last_name} (Display Stats -->)</li>`
+    newPlayer.innerHTML =`${player.first_name} ${player.last_name}`
     playerList.appendChild(newPlayer)
 }
 
