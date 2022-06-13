@@ -1,30 +1,15 @@
 const playerSubmit = document.getElementById("player-search")
-const teamSubmit = document.getElementById("team-search")
+playerSubmit.addEventListener("submit", handlePlayerSubmit)
 
 let grabPlayers = document.getElementsByClassName("player")
-let grabTeams = document.getElementsByClassName('team')
 let grabTable = document.getElementsByClassName('table')
 
-playerSubmit.addEventListener("submit", handlePlayerSubmit)
 document.addEventListener('keydown', handleRemove)
-
-function removePlayers(grabPlayers){
-    for(let i=grabPlayers.length-1;i >= 0;i--) {
-        grabPlayers[i].remove();
-    }
-}
 
 function handlePlayerSubmit(event){
     event.preventDefault()
     let playerInputText = document.getElementById('player-text').value
     fetchPlayer(playerInputText)
-}
-
-function handleRemove(event){
-    if(event.key === 'Backspace')
-        for(let i=grabTable.length-1;i >= 0;i--) {
-            grabTable[i].remove();
-        }
 }
 
 function fetchPlayer(playerInputText) {
@@ -57,7 +42,6 @@ function getStats(player){
     fetch(`https://www.balldontlie.io/api/v1/stats?player_ids[]=${player.id}&per_page=100`)
     .then(response => response.json())
     .then(playerStats => {
-        console.log(playerStats)
         renderStats(playerStats)})
 }
 
@@ -115,6 +99,19 @@ function renderStats(playerStats){
     row2.appendChild(row2data5)
     row2.appendChild(row2data6)
     newBody.appendChild(row2)
+}
+
+function removePlayers(grabPlayers){
+    for(let i=grabPlayers.length-1;i >= 0;i--) {
+        grabPlayers[i].remove();
+    }
+}
+
+function handleRemove(event){
+    if(event.key === 'Backspace')
+        for(let i=grabTable.length-1;i >= 0;i--) {
+            grabTable[i].remove();
+        }
 }
 
 
