@@ -87,7 +87,7 @@ function removePlayers(grabPlayers){
 }
 
 function handleRemove(event){
-    if(event.key === 'Backspace')
+    if(event.key === 'Tab')
         for(let i=grabTable.length-1;i >= 0;i--) {
             grabTable[i].remove();
         }
