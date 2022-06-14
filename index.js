@@ -2,7 +2,7 @@ const playerSubmit = document.getElementById("player-search")
 playerSubmit.addEventListener("submit", handlePlayerSubmit)
 
 let grabPlayers = document.getElementsByClassName("player")
-let grabTable = document.getElementsByClassName('table')
+let grabTable = document.getElementsByClassName('new-table')
 
 document.addEventListener('keydown', handleRemove)
 
@@ -57,19 +57,28 @@ function renderStats(playerStats){
     let grabColumn= document.getElementById("column2")
     newTable = document.createElement('table')
     newTable.className = 'new-table'
-    let thead = newTable.createTHead();
-    let row = thead.insertRow();
+    newHead = document.createElement('thead')
+    newBody = document.createElement('tbody')
+    let row1 = document.createElement('tr')
+    let row2 = document.createElement('tr')
+    newTable.appendChild(newHead)
+    newTable.appendChild(newBody)
     for (key in statObject){
-        let th = document.createElement("th");
-        let text = document.createTextNode(key);
+        let th = document.createElement("th")
+        let text = document.createTextNode(key)
+        console.log(key)
         th.appendChild(text);
-        row.appendChild(th);
+        row1.appendChild(th);
     }
+    newHead.appendChild(row1)
     for (value in statObject) {
-        let cell = row.insertCell();
-        let text = document.createTextNode(value);
-        cell.appendChild(text);
+        let td = document.createElement("td")
+        console.log(value)
+        let text = document.createTextNode(statObject[value])
+        td.appendChild(text)
+        row2.appendChild(td);
     }
+    newBody.appendChild(row2)
     grabColumn.appendChild(newTable)
 
 
